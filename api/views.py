@@ -1,5 +1,8 @@
+from django.core.exceptions import ValidationError
+from django.http.response import HttpResponseBadRequest
 from api.models import Task
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TaskSerializer
@@ -7,10 +10,13 @@ from .serializers import TaskSerializer
 
 @api_view(["POST"])
 def create_task(request):
-    serializer = TaskSerializer(request.data)
+    serializer = TaskSerializer(data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
+    try:
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+    except ValidationError:
+        return Response(ValidationError, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.data)
 
@@ -18,10 +24,13 @@ def create_task(request):
 @api_view(["PUT"])
 def update_task(request, pk):
     task = Task.objects.get(pk=pk)
-    serializer = TaskSerializer(instance=task, data=request.data)
+    serializer = TaskSerializer(instance=task, data=request.data, partial=True)
 
-    if serializer.is_valid():
-        serializer.save()
+    try:
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+    except ValidationError:
+        return Response(ValidationError, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.data)
 
