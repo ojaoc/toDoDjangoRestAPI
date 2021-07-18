@@ -1,34 +1,50 @@
+from api.models import Task
 from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import TaskSerializer
 
-# URLConf
-# urlpatterns = [
-#     path("create-task/", views.create_task),
-#     path("update-task/", views.update_task),
-#     path("delete-task/", views.delete_task),
-#     path("list-tasks/", views.list_tasks),
-#     path("get-single-task/", views.get_single_task),
-# ]
 
-# POST
+@api_view(["POST"])
 def create_task(request):
-    return None
+    serializer = TaskSerializer(request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
 
 
-# PUT
-def update_task(request):
-    return None
+@api_view(["PUT"])
+def update_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    serializer = TaskSerializer(instance=task, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
 
 
-# DELETE
-def delete_task(request):
-    return None
+@api_view(["DELETE"])
+def delete_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.delete()
+
+    return Response(f"Task with id '{pk}' successfully deleted.")
 
 
-# GET
+@api_view(["GET"])
 def list_tasks(request):
-    return None
+    tasks = Task.objects.all()
+    serializer = TaskSerializer(tasks, many=True)
+
+    return Response(serializer.data)
 
 
-# GET
+@api_view(["GET"])
 def get_single_task(request, pk):
-    return None
+    task = Task.objects.get(pk=pk)
+    serializer = TaskSerializer(task, many=False)
+
+    return Response(serializer.data)
