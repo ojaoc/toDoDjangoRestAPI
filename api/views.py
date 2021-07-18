@@ -23,7 +23,13 @@ def create_task(request):
 
 @api_view(["PUT"])
 def update_task(request, pk):
-    task = Task.objects.get(pk=pk)
+    try:
+        task = Task.objects.get(pk=pk)
+    except Task.DoesNotExist:
+        return Response(
+            f"Task with pk of {pk} does not exist", status=status.HTTP_404_NOT_FOUND
+        )
+
     serializer = TaskSerializer(instance=task, data=request.data, partial=True)
 
     try:
@@ -37,7 +43,13 @@ def update_task(request, pk):
 
 @api_view(["DELETE"])
 def delete_task(request, pk):
-    task = Task.objects.get(pk=pk)
+    try:
+        task = Task.objects.get(pk=pk)
+    except Task.DoesNotExist:
+        return Response(
+            f"Task with pk of {pk} does not exist", status=status.HTTP_404_NOT_FOUND
+        )
+
     task.delete()
 
     return Response(f"Task with id '{pk}' successfully deleted.")
@@ -53,7 +65,13 @@ def list_tasks(request):
 
 @api_view(["GET"])
 def get_single_task(request, pk):
-    task = Task.objects.get(pk=pk)
+    try:
+        task = Task.objects.get(pk=pk)
+    except Task.DoesNotExist:
+        return Response(
+            f"Task with pk of {pk} does not exist", status=status.HTTP_404_NOT_FOUND
+        )
+
     serializer = TaskSerializer(task, many=False)
 
     return Response(serializer.data)
