@@ -30,5 +30,5 @@ def list_tasks(request):
 
 
 # GET
-def get_single_task(request):
+def get_single_task(request, pk):
     return None
