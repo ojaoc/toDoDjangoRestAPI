@@ -8,6 +8,3 @@ class Task(models.Model):
 
     def __str__(self) -> str:
         return self.description
-
-    class Meta:
-        ordering = ["is_done"]
