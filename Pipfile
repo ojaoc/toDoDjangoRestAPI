@@ -10,6 +10,9 @@ mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 drf-yasg = "*"
+django-heroku = "*"
+gunicorn = "*"
+django-environ = "*"
 
 [dev-packages]
 black = "*"
