@@ -9,6 +9,7 @@ django-debug-toolbar = "*"
 mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+drf-yasg = "*"
 
 [dev-packages]
 black = "*"
