@@ -6,13 +6,13 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
-mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 drf-yasg = "*"
 django-heroku = "*"
 gunicorn = "*"
 django-environ = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"

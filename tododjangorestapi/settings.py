@@ -88,7 +88,7 @@ WSGI_APPLICATION = "tododjangorestapi.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "toDoDjango",
         "HOST": env("DBHOST"),
         "USER": env("DBUSER"),
